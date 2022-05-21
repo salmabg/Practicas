@@ -1,0 +1,223 @@
+Clase Empleado:
+package Empresa2022;
+import java.util.Scanner;
+class Empleado {
+   String     nombre;
+   int  antiguedad;
+   double     salario;
+   Empleado superior;
+
+public Empleado(){
+   nombre= "nombre y apellido";
+   antiguedad= 0;
+   salario= 0;
+   superior = this;
+}
+public Empleado(String nom,int ant,double sal,Empleado sup){
+ this.nombre=nom;
+   this.antiguedad=ant;
+   this.salario=sal;
+   this.superior=sup;
+}
+public void mostrarDatos(){
+   System.out.println("");
+   System.out.println("Nombre: " + this.nombre);
+   System.out.println("Antiguedad: " + this.antiguedad);
+   System.out.println("Salario: $" + this.salario);
+
+   if(this.superior == null)
+       { System.out.println("Superior: " + "no tiene superior");
+       }
+   else
+       { System.out.println("Superior: " + this.superior.nombre );
+       }
+}
+
+public void cambiarSuperior(Empleado nuevoSuperior){
+   this.superior = nuevoSuperior;
+   }
+public void cambiarSecretario(Empleado nuevoSecretario){
+   this.superior = nuevoSecretario;
+   }
+public void cambiarAuto(String nuevoAuto){
+   System.out.println("El nuevo auto asignado de "+this.nombre+
+   " es: "+nuevoAuto);
+   }
+public void incrementarSalario(Double incrementoSalarial){
+   System.out.println("");
+   System.out.println("El sueldo previo al aumento: $"+this.salario);
+   this.salario = this.salario + incrementoSalarial*this.salario;
+   System.out.println("El sueldo con el aumento de: "+this.nombre+
+   " es: $ "+this.salario);
+   }
+}
+Clase Jefe de Zona:
+package Empresa2022;
+import java.util.ArrayList;
+
+public class JefeZona extends Empleado{
+   String coche;
+   ArrayList<Vendedor> vendedores = new ArrayList<>();
+  ArrayList<Secretario> secretarios = new ArrayList<>();
+ public JefeZona(){
+   super();
+}    
+public JefeZona(String nom, int ant, double sal, String coche){
+       super(nom, ant, sal, null);
+       this.coche = coche;
+}
+public void asignarVendedor(Vendedor nuevoVendedor){
+       this.vendedores.add(nuevoVendedor);
+       nuevoVendedor.cambiarSuperior(this);
+}
+public void mostrarVendedores(){
+   for (int i=0; i< this.vendedores.size(); i++)
+   { this.vendedores.get(i).mostrarDatos();
+   }
+}
+public void asignarSecretario(Secretario nuevoSecretario){
+       this.secretarios.add(nuevoSecretario);
+       nuevoSecretario.cambiarSuperior(this);
+}
+public void mostrarSecretario(){
+   for (int i=0; i< this.secretarios.size(); i++)
+   {this.secretarios.get(i).mostrarDatos();
+   }    
+}
+@Override
+   public void mostrarDatos(){
+   System.out.println("");
+   super.mostrarDatos();
+   System.out.println("El auto asignado es: "+this.coche);
+   }
+}
+Clase Secretario:
+
+package Empresa2022;
+import java.util.ArrayList;
+public class Secretario extends Empleado {
+   String Despacho;
+   int numFax;
+public Secretario (){
+       super();
+       this.Despacho = "Oficina N°5";
+       this.numFax = 1146385026;
+}
+public Secretario(String nom, int ant, double sal, Empleado sup,
+       int numFax, String Despacho){  
+       super(nom, ant, sal, sup);
+       this.Despacho = Despacho;
+       this.numFax = numFax;
+}  
+   @Override
+   public void mostrarDatos(){
+   System.out.println("");
+   super.mostrarDatos();
+   System.out.println("Despacho: "+this.Despacho);
+   System.out.println("El Fax es: "+this.numFax);
+}
+
+}
+Clase Vendedor:
+
+package Empresa2022;
+public class Vendedor extends Empleado{
+   String coche;
+   String patente;
+   String marca;
+   String modelo;
+   int celular;
+   String areaventa;
+   double comision;
+   
+public Vendedor (){
+   super();
+   this.coche= "Automóvil";
+   this.patente="FHK 311";
+   this.marca="FIAT";
+   this.modelo="Palio";
+   this.celular=1559364444;
+   this.areaventa="Ventas-Zona Norte";
+   this.comision= 5.0;
+}      
+public Vendedor (String nom, int ant, double sal, Empleado sup, String coche,
+       String patente, String marca, String modelo, int celular,
+       String areaventa, double comision){
+       
+       super(nom, ant, sal, sup);
+       this.coche = coche;
+       this.patente=patente;
+       this.marca=marca;
+       this.modelo=modelo;
+       this.celular=celular;
+       this.areaventa=areaventa;
+       this.comision=comision;
+   }
+   @Override
+public void mostrarDatos(){
+   System.out.println("");
+   super.mostrarDatos();
+   System.out.println(this.coche+": "+this.marca+" "+this.modelo+", patente: "+
+   this.patente);
+   System.out.println("El celular es: "+celular+" su area es: "+areaventa+
+   " y su comisión es: "+comision+ "% de las ventas.");
+}
+
+}
+package Empresa2022;
+public class Plantel {
+public static void main(String[] args) {
+
+JefeZona JefeZonaNorte, JefeZonaSur;
+Vendedor Vendedor1, Vendedor2;
+Secretario Secretario1, Secretario2;
+
+JefeZonaNorte = new JefeZona ( "Mauro Scolapio",4,60000,
+"Peugeot 308, Patente AA234");
+JefeZonaSur = new JefeZona ("Hugo Prado",3,55000, "Citroen c4, Patente AB234");
+Vendedor1 = new Vendedor ("Miguel Angel Zorzoni",10,30000,null,"Automovil",
+"FHK 311", "Fiat", "Palio",1559364444, "Ventas-Zona Norte", 5.0);
+Vendedor2 = new Vendedor ("Maximo Sarago",5,25000,null,"Camioneta","BOT 831",
+"Renaul", "Kangoo", 1559365555, "Ventas-Zona Sur",5.0);
+Secretario1 = new Secretario ("Rodrigo Ruiz",5,25000,null,1146385026,
+"Oficina N° 5");
+Secretario2 = new Secretario ("Mario Jerez",2,25000,null,1146385027,
+"Oficina N° 9");
+
+System.out.println("\n"+"-LISTADO DE JEFES DE ZONA-");
+JefeZonaNorte.mostrarDatos();
+JefeZonaSur.mostrarDatos();
+System.out.println("\n"+"-LISTADO DE SECRETARIOS-");
+Secretario1.mostrarDatos();
+Secretario2.mostrarDatos();
+System.out.println("\n"+"-LISTADO DE VENDEDORES-");
+Vendedor1.mostrarDatos();
+Vendedor2.mostrarDatos();
+System.out.println("\n"+"=============================");
+System.out.println("\n"+"-SE ASIGNAN JEFES A LOS VENDEDORES-");
+JefeZonaNorte.asignarVendedor(Vendedor2);
+JefeZonaSur.asignarVendedor(Vendedor1);
+System.out.println("");
+JefeZonaNorte.mostrarVendedores();
+JefeZonaSur.mostrarVendedores();
+System.out.println("\n"+"-SE ASIGNAN JEFES A LOS SECRETARIOS-");
+JefeZonaNorte.asignarSecretario(Secretario2);
+JefeZonaSur.asignarSecretario(Secretario1);
+JefeZonaNorte.mostrarSecretario();
+JefeZonaSur.mostrarSecretario();
+System.out.println("\n"+"============================="+"\n");
+System.out.println("\n"+"-SE AUMENTAN LOS SUELDOS A TODOS-");
+System.out.println("\n"+"-A LOS VENDEDORES SOLO UN 20,0% ANUAL-");
+Vendedor1.incrementarSalario(0.20);
+Vendedor2.incrementarSalario(0.20);
+System.out.println("\n"+"-A LOS SECRETARIOS SOLO 5,0% ANUAL-");
+Secretario1.incrementarSalario(0.05);
+Secretario2.incrementarSalario(0.05);
+System.out.println("\n"+"-A LOS SECRETARIOS 20,0% ANUAL-");
+JefeZonaNorte.incrementarSalario(0.20);
+JefeZonaSur.incrementarSalario(0.20);
+System.out.println("\n"+"============================="+"\n");
+System.out.println("SE LES ASIGNA NUEVO AUTO A LOS JEFES"+"\n");
+JefeZonaNorte.cambiarAuto("Citroen C5 Experience, Patente AA835");
+JefeZonaSur.cambiarAuto("Peugeot 508 XL, Patente AA125"+"\n");
+}
